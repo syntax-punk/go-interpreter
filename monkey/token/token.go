@@ -22,6 +22,8 @@ const (
 	BANG     = "!"
 	ASTERISK = "*"
 	SLASH    = "/"
+	EQ       = "=="
+	NOT_EQ   = "!="
 
 	LT = "<"
 	GT = ">"
@@ -38,11 +40,26 @@ const (
 	// Keywords
 	FUNCTION = "FUNCTION"
 	LET      = "LET"
+	TRUE     = "TRUE"
+	FALSE    = "FALSE"
+	IF       = "IF"
+	ELSE     = "ELSE"
+	RETURN   = "RETURN"
 )
 
 var keywords = map[string]TokenType{
-	"fn":  FUNCTION,
-	"let": LET,
+	"fn":     FUNCTION,
+	"let":    LET,
+	"true":   TRUE,
+	"false":  FALSE,
+	"if":     IF,
+	"else":   ELSE,
+	"return": RETURN,
+}
+
+var twoCharTokens = map[string]TokenType{
+	"==": EQ,
+	"!=": NOT_EQ,
 }
 
 func LookupIdent(ident string) TokenType {
@@ -50,4 +67,11 @@ func LookupIdent(ident string) TokenType {
 		return tok
 	}
 	return IDENT
+}
+
+func LookupTwoCharTokens(input string) TokenType {
+	if tok, ok := twoCharTokens[input]; ok {
+		return tok
+	}
+	return ILLEGAL
 }
